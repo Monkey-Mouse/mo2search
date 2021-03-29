@@ -93,6 +93,14 @@ func main() {
 	search.IndexNameLookup = func(req *http.Request) string {
 		return req.URL.Query().Get("index")
 	}
+	del := bleveHttp.NewDocDeleteHandler("blog")
+	del.DocIDLookup = func(req *http.Request) string {
+		return req.URL.Query().Get("id")
+	}
+	del.IndexNameLookup = func(req *http.Request) string {
+		_, f := path.Split(req.URL.RawPath)
+		return f
+	}
 	api := r.Group("api")
 	{
 		api.POST("/index", func(ctx *gin.Context) {
@@ -110,6 +118,9 @@ func main() {
 		})
 		api.PUT("/:index", func(ctx *gin.Context) {
 			index.ServeHTTP(ctx.Writer, ctx.Request)
+		})
+		api.DELETE("/:index", func(ctx *gin.Context) {
+			del.ServeHTTP(ctx.Writer, ctx.Request)
 		})
 		api.POST("/search", func(ctx *gin.Context) {
 			search.ServeHTTP(ctx.Writer, ctx.Request)
