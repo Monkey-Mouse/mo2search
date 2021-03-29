@@ -52,7 +52,10 @@ func CreateOrLoadIndex(name string) {
 }
 
 func main() {
-	_ = os.Mkdir(dataDir, os.ModeDir)
+	err := os.Mkdir(dataDir, os.ModeDir)
+	if err != nil {
+		log.Println(err.(*os.PathError))
+	}
 	// walk the data dir and register index names
 	dirEntries, err := ioutil.ReadDir(dataDir)
 	if err != nil {

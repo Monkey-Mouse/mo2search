@@ -15,8 +15,8 @@ FROM ubuntu:latest
 RUN apt-get update
 RUN apt-get install ca-certificates -y
 WORKDIR /app
-RUN chmod -R 777 .
 COPY --from=builder /go/bin /app
+RUN chmod -R 777 .
 ENV GIN_MODE=release
 ENTRYPOINT /app/mo2search
 LABEL Name=mo2search Version=0.0.1
