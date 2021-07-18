@@ -89,7 +89,7 @@ func main() {
 		return req.URL.Query().Get("id")
 	}
 	index.IndexNameLookup = func(req *http.Request) string {
-		_, f := path.Split(req.URL.RawPath)
+		_, f := path.Split(req.URL.Path)
 		return f
 	}
 	search := bleveHttp.NewSearchHandler("blog")
@@ -101,7 +101,7 @@ func main() {
 		return req.URL.Query().Get("id")
 	}
 	del.IndexNameLookup = func(req *http.Request) string {
-		_, f := path.Split(req.URL.RawPath)
+		_, f := path.Split(req.URL.Path)
 		return f
 	}
 	api := r.Group("api")
